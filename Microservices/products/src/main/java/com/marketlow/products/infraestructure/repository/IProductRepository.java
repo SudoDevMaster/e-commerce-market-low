@@ -6,10 +6,12 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface IProductRepository extends JpaRepository<ProductEntity,Integer> {
     List<ProductEntity> findByStateTrue();
     List<ProductEntity> findAll();
-    ProductEntity findByUui(String uui);
+    Optional<ProductEntity> findByUui(String uui);
+    Optional<ProductEntity> findByName(String name);
 }
