@@ -1,0 +1,52 @@
+## SERVER
+server:
+  port: 8080
+  max-http-header-size: 40KB
+  error:
+    whitelabel:
+      enabled: false
+
+## LOGGER
+logging:
+  level:
+    root: info
+    org.springframework: info
+
+## Swagger-UI
+springdoc:
+  api-docs:
+    path: ${spring.application.root}/swagger-api-docs
+  swagger-ui:
+    path: ${spring.application.root}/swagger-ui.html
+  paths-to-exclude: /swagger-resources/**
+
+
+spring:
+  application:
+    name: products
+    version: v1.0.0
+    port: ${server.port}
+    log: logs/
+    root: /marketlow/${spring.application.name}
+  datasource:
+    # url: ${DB_URL}
+    url: jdbc:postgresql://localhost:5432/mydatabase
+    # username: ${DB_USER}
+    username: products
+    # password: ${DB_PASSWORD}
+    password: mypassword
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      idle-timeout: 30000
+      connection-timeout: 20000
+      max-lifetime: 1800000
+      pool-name: HikariPool
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
