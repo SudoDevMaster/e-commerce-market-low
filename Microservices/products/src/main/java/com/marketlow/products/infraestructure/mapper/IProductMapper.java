@@ -3,6 +3,7 @@ package com.marketlow.products.infraestructure.mapper;
 import com.marketlow.products.domain.model.Product;
 import com.marketlow.products.infraestructure.entity.ProductEntity;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.factory.Mappers;
 
@@ -15,7 +16,9 @@ public interface IProductMapper {
     void updateProductFromEntity(ProductEntity dto, @MappingTarget ProductEntity entity);
 
     Product toDomain(ProductEntity entity);
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "creationDate", ignore = true)
+    @Mapping(target = "updateDate", ignore = true)
     ProductEntity toEntity(Product product);
     List<Product> toDomainList(List<ProductEntity> entities);
-    List<ProductEntity> toEntityList(List<Product> products);
 }

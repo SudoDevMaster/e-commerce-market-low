@@ -44,7 +44,7 @@ public class ProductDomainServiceTest {
 
 
     @Test
-    @DisplayName("Product Test - When create a product")
+    @DisplayName("Product Domain Test - When create a product")
     void saveProduct() throws CustomException {
         when(iProductMapper.toEntity(any())).thenReturn(creationInfoEntityProduct());
         when(iProductRepository.save(any())).thenReturn(creationInfoEntityProduct());
@@ -57,6 +57,7 @@ public class ProductDomainServiceTest {
     }
 
     @Test
+    @DisplayName("Product Domain Test - When update a product")
     void updateProduct() throws CustomException {
         when(iProductRepository.findByUui(any())).thenReturn(Optional.of(creationInfoEntityProduct()));
         when(iProductMapper.toEntity(any())).thenReturn(creationInfoEntityProduct());
@@ -69,7 +70,7 @@ public class ProductDomainServiceTest {
     }
 
     @Test
-    @DisplayName("Product Test - When get a product")
+    @DisplayName("Product Domain Test - When get a product")
     void getByUuiProduct() throws CustomException {
         when(iProductRepository.findByUui(any())).thenReturn(Optional.of(creationInfoEntityProduct()));
         when(iProductMapper.toDomain(any())).thenReturn(iProductMapperAutowired.toDomain(creationInfoEntityProduct()));
@@ -80,7 +81,7 @@ public class ProductDomainServiceTest {
     }
 
     @Test
-    @DisplayName("Product Test - When get a list of products")
+    @DisplayName("Product Domain Test - When get a list of products")
     void getAllProducts() throws CustomException {
         when(iProductRepository.findAll()).thenReturn(creationListInfoEntityProduct());
         when(iProductMapper.toDomainList(any())).thenReturn(iProductMapperAutowired.toDomainList(creationListInfoEntityProduct()));
@@ -91,7 +92,7 @@ public class ProductDomainServiceTest {
     }
 
     @Test
-    @DisplayName("Product Test - When get a list of products actives")
+    @DisplayName("Product Domain Test - When get a list of products actives")
     void getAllActiveProducts() throws CustomException {
         when(iProductRepository.findByStateTrue()).thenReturn(creationListInfoEntityProduct());
         when(iProductMapper.toDomainList(any())).thenReturn(iProductMapperAutowired.toDomainList(creationListInfoEntityProduct()));
@@ -102,7 +103,7 @@ public class ProductDomainServiceTest {
     }
 
     @Test
-    @DisplayName("Product Test - When save product failure")
+    @DisplayName("Product Domain Test - When save product failure")
     void saveProduct_Failure() {
         when(iProductMapper.toEntity(any())).thenReturn(creationInfoEntityProduct());
         when(iProductRepository.save(any())).thenThrow(CustomException.builder().message("Failed to save product").build());
@@ -113,7 +114,7 @@ public class ProductDomainServiceTest {
     }
 
     @Test
-    @DisplayName("Product Test - When product exist in BD")
+    @DisplayName("Product Domain Test - When product exist in BD")
     void saveProduct_WhenFoundProduct() {
         ProductEntity productEntity = creationInfoEntityProduct();
         Product product = iProductMapperAutowired.toDomain(productEntity);
@@ -125,7 +126,7 @@ public class ProductDomainServiceTest {
     }
 
     @Test
-    @DisplayName("Product Test - When update product failure")
+    @DisplayName("Product Domain Test - When update product failure")
     void updateProduct_Failure() {
         Product product = iProductMapperAutowired.toDomain(creationInfoEntityProduct());
         when(iProductMapper.toEntity(any())).thenReturn(creationInfoEntityProduct());
@@ -137,7 +138,7 @@ public class ProductDomainServiceTest {
     }
 
     @Test
-    @DisplayName("Product Test - When products not found")
+    @DisplayName("Product Domain Test - When products not found")
     void getAllProducts_NoProductsFound() {
         when(iProductRepository.findAll()).thenReturn(new ArrayList<>());
         CustomException exception = assertThrows(CustomException.class, () -> {
@@ -147,7 +148,7 @@ public class ProductDomainServiceTest {
     }
 
     @Test
-    @DisplayName("Product Test - When products active not found")
+    @DisplayName("Product Domain Test - When products active not found")
     void getAllActiveProducts_NoProductsFound() {
         when(iProductRepository.findByStateTrue()).thenReturn(new ArrayList<>());
         CustomException exception = assertThrows(CustomException.class, () -> {
@@ -157,7 +158,7 @@ public class ProductDomainServiceTest {
     }
 
     @Test
-    @DisplayName("Product Test - When product not found")
+    @DisplayName("Product Domain Test - When product not found")
     void getProducts_NoProductFound() {
         Product product = iProductMapperAutowired.toDomain(creationInfoEntityProduct());
         when(iProductRepository.findByUui(product.getUui())).thenReturn(Optional.of(new ProductEntity()));

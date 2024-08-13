@@ -15,4 +15,5 @@ public class Product {
     private final Double price;
     private final Integer stock;
     private final String category;
+    private final Boolean state;
 }

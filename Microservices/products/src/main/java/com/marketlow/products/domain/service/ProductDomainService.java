@@ -19,26 +19,39 @@ public class ProductDomainService implements IProductDomainService {
     private IProductMapper iProductMapper;
     @Override
     public List<Product> getAllProducts() throws CustomException {
+        try{
         return Optional.of(iProductRepository.findAll())
                 .filter(list -> !list.isEmpty())
                 .map(iProductMapper::toDomainList)
                 .orElseThrow(() -> CustomException.builder().message("No products found").build());
+        } catch (Exception e) {
+            throw new RuntimeException("Exception info:", e);
+        }
     }
     @Override
     public List<Product> getAllActiveProducts() throws CustomException {
+        try{
         return Optional.of(iProductRepository.findByStateTrue())
                 .filter(list -> !list.isEmpty())
                 .map(iProductMapper::toDomainList)
                 .orElseThrow(() -> CustomException.builder().message("No active products found").build());
+        } catch (Exception e) {
+            throw new RuntimeException("Exception info", e);
+        }
     }
     @Override
     public Product getByUui(String uui) throws CustomException {
+        try{
         return iProductRepository.findByUui(uui)
                 .map(iProductMapper::toDomain)
                 .orElseThrow(() -> CustomException.builder().message("Product not found with UUID: " + uui).build());
+        } catch (Exception e) {
+            throw new RuntimeException("Exception info:", e);
+        }
     }
     @Override
     public Product save(Product product) throws CustomException {
+        try {
         if (iProductRepository.findByName(product.getName()).isPresent()) {
             throw CustomException.builder().message("Product with name '" + product.getName() + "' already exists").build();
         }
@@ -47,15 +60,22 @@ public class ProductDomainService implements IProductDomainService {
                 .map(iProductRepository::save)
                 .map(iProductMapper::toDomain)
                 .orElseThrow(() -> CustomException.builder().message("Failed to save product").build());
+        } catch (Exception e) {
+            throw new RuntimeException("Exception info:", e);
+        }
     }
     @Override
     @Transactional
     public Product update(Product product) throws CustomException {
+        try{
         return iProductRepository.findByUui(product.getUui())
                 .map(productEntity -> {
                     iProductMapper.updateProductFromEntity(productEntity, iProductMapper.toEntity(product));
                     return iProductMapper.toDomain(iProductRepository.save(productEntity));
                 })
                 .orElseThrow(() -> CustomException.builder().message("Product not found with id " + product.getUui()).build());
+        } catch (Exception e) {
+            throw new RuntimeException("Exception info: ", e);
+        }
     }
 }

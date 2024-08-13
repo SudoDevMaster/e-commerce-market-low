@@ -31,34 +31,78 @@ public class ProductApplicationServiceTest {
 
     @Mock
     IProductDomainService iProductDomainService;
-    @Mock
-    IProductMapper iProductMapper;
-    @Autowired
-    IProductMapper iProductMapperAutowired;
+    @InjectMocks
+    ProductApplicationService productApplicationService;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
     }
 
-
-    private ProductEntity creationInfoEntityProduct(){
-        ProductEntity productEntity = new ProductEntity();
-        productEntity.setId(new Random().nextInt());
-        productEntity.setUui(UUID.randomUUID().toString());
-        productEntity.setName("Test");
-        productEntity.setDescription("Test Product");
-        productEntity.setPrice(1000.0);
-        productEntity.setStock(5);
-        productEntity.setCategory("Test");
-        return productEntity;
+    @Test
+    @DisplayName("Product Application Test - When create a new product in use case")
+    void createProduct() throws CustomException{
+        when(iProductDomainService.save(any())).thenReturn(creationInfoProduct());
+        Product product = productApplicationService.saveProduct(creationInfoProduct());
+        assertNotNull(product);
+        verify(iProductDomainService).save(any());
     }
 
-    private ArrayList<ProductEntity> creationListInfoEntityProduct(){
-        ArrayList listProduct = new ArrayList<ProductEntity>();
-        listProduct.add(creationInfoEntityProduct());
-        listProduct.add(creationInfoEntityProduct());
-        listProduct.add(creationInfoEntityProduct());
+    @Test
+    @DisplayName("Product Application Test - When update exist product in use case")
+    void updateProduct() throws CustomException{
+        when(iProductDomainService.update(any())).thenReturn(creationInfoProduct());
+        Product product = productApplicationService.updateProduct(creationInfoProduct());
+        assertNotNull(product);
+        verify(iProductDomainService).update(any());
+    }
+
+    @Test
+    @DisplayName("Product Application Test - When get a product for it's uui code")
+    void findByUuiProduct() throws CustomException{
+        when(iProductDomainService.getByUui(any())).thenReturn(creationInfoProduct());
+        Product product = productApplicationService.findByUui(anyString());
+        assertNotNull(product);
+        verify(iProductDomainService).getByUui(any());
+    }
+
+    @Test
+    @DisplayName("Product Application Test - When get a list of products")
+    void findAllProducts() throws CustomException{
+        when(iProductDomainService.getAllProducts()).thenReturn(creationListInfoProduct());
+        List<Product> listProduct = productApplicationService.findAllProducts();
+        assertNotNull(listProduct);
+        assertEquals(3, listProduct.size(), "It have a three products in data");
+        verify(iProductDomainService).getAllProducts();
+    }
+
+    @Test
+    @DisplayName("Product Application Test - When get a list of products actives")
+    void findAllActiveProducts() throws CustomException{
+        when(iProductDomainService.getAllActiveProducts()).thenReturn(creationListInfoProduct());
+        List<Product> listProduct = productApplicationService.findAllActiveProducts();
+        assertNotNull(listProduct);
+        assertEquals(3, listProduct.size(), "It have a three products in data");
+        verify(iProductDomainService).getAllActiveProducts();
+    }
+
+
+    private Product creationInfoProduct(){
+        return Product.builder()
+                .uui(UUID.randomUUID().toString())
+                .name("Test")
+                .description("Test Product")
+                .price(1000.0)
+                .stock(5)
+                .category("Test")
+                .build();
+    }
+
+    private ArrayList<Product> creationListInfoProduct(){
+        ArrayList listProduct = new ArrayList<Product>();
+        listProduct.add(creationInfoProduct());
+        listProduct.add(creationInfoProduct());
+        listProduct.add(creationInfoProduct());
         return listProduct;
     }
 

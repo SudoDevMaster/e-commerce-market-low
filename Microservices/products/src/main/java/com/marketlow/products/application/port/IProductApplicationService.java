@@ -8,7 +8,7 @@ import java.util.List;
 public interface IProductApplicationService {
     List<Product> findAllProducts() throws CustomException;
     List<Product> findAllActiveProducts() throws CustomException;
-    Product findByUui(String s) throws CustomException;
+    Product findByUui(String uui) throws CustomException;
     Product saveProduct(Product product) throws CustomException;
     Product updateProduct(Product product) throws CustomException;
 }
