@@ -24,8 +24,11 @@ public class ProductDomainService implements IProductDomainService {
                 .filter(list -> !list.isEmpty())
                 .map(iProductMapper::toDomainList)
                 .orElseThrow(() -> CustomException.builder().message("No products found").build());
-        } catch (Exception e) {
-            throw new RuntimeException("Exception info:", e);
+        } catch (CustomException ex){
+            throw ex;
+        }
+        catch (Exception e) {
+            throw new RuntimeException("Exception info: " + e.getMessage(), e);
         }
     }
     @Override
@@ -35,8 +38,11 @@ public class ProductDomainService implements IProductDomainService {
                 .filter(list -> !list.isEmpty())
                 .map(iProductMapper::toDomainList)
                 .orElseThrow(() -> CustomException.builder().message("No active products found").build());
-        } catch (Exception e) {
-            throw new RuntimeException("Exception info", e);
+        } catch (CustomException ex){
+            throw ex;
+        }
+        catch (Exception e) {
+            throw new RuntimeException("Exception info: " + e.getMessage(), e);
         }
     }
     @Override
@@ -45,8 +51,11 @@ public class ProductDomainService implements IProductDomainService {
         return iProductRepository.findByUui(uui)
                 .map(iProductMapper::toDomain)
                 .orElseThrow(() -> CustomException.builder().message("Product not found with UUID: " + uui).build());
-        } catch (Exception e) {
-            throw new RuntimeException("Exception info:", e);
+        } catch (CustomException ex){
+            throw ex;
+        }
+        catch (Exception e) {
+            throw new RuntimeException("Exception info: " + e.getMessage(), e);
         }
     }
     @Override
@@ -60,8 +69,11 @@ public class ProductDomainService implements IProductDomainService {
                 .map(iProductRepository::save)
                 .map(iProductMapper::toDomain)
                 .orElseThrow(() -> CustomException.builder().message("Failed to save product").build());
-        } catch (Exception e) {
-            throw new RuntimeException("Exception info:", e);
+        } catch (CustomException ex){
+            throw ex;
+        }
+        catch (Exception e) {
+            throw new RuntimeException("Exception info: " + e.getMessage(), e);
         }
     }
     @Override
@@ -74,8 +86,11 @@ public class ProductDomainService implements IProductDomainService {
                     return iProductMapper.toDomain(iProductRepository.save(productEntity));
                 })
                 .orElseThrow(() -> CustomException.builder().message("Product not found with id " + product.getUui()).build());
-        } catch (Exception e) {
-            throw new RuntimeException("Exception info: ", e);
+        } catch (CustomException ex){
+            throw ex;
+        }
+        catch (Exception e) {
+            throw new RuntimeException("Exception info: " + e.getMessage(), e);
         }
     }
 }

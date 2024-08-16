@@ -1,6 +1,6 @@
 ## SERVER
 server:
-  port: 8080
+  port: 8085
   max-http-header-size: 40KB
   error:
     whitelabel:
@@ -42,7 +42,7 @@ spring:
       idle-timeout: 30000
       connection-timeout: 20000
       max-lifetime: 1800000
-      pool-name: HikariPool
+      pool-name: ProductsPool
 
   jpa:
     show-sql: true

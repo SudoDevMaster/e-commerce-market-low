@@ -12,7 +12,7 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface IProductMapper {
-    IProductMapper INSTANCE = Mappers.getMapper(IProductMapper.class);
+    //IProductMapper INSTANCE = Mappers.getMapper(IProductMapper.class);
     void updateProductFromEntity(ProductEntity dto, @MappingTarget ProductEntity entity);
 
     Product toDomain(ProductEntity entity);
